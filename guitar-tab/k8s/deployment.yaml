@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guitar-tab-api
+  namespace: guitar-tab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guitar-tab-api
+  template:
+    metadata:
+      labels:
+        app: guitar-tab-api
+    spec:
+      containers:
+        - name: api
+          image: guitar-tab-api:v0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
